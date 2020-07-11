@@ -73,7 +73,7 @@ public class LoginController {
     	
     	
     	
-    	b = new ArrayList<>(a.sort());
+    	b = new ArrayList<>(a.sortTimeTable());
     	
     	  
     	if ( b == null) {

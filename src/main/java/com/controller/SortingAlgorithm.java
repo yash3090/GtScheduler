@@ -94,7 +94,7 @@ public class SortingAlgorithm {
 
     
     //has to be called to initialize the arraylist of courses
-    public List<Timetable> sort() {
+    public void sort() {
     	
         for (String course : courseList) {
             if(course == ""){
@@ -339,9 +339,6 @@ public class SortingAlgorithm {
             }
 
         }
-        
-        List<Timetable> best = this.sortTimeTable();
-        return best;
 
     }
 
