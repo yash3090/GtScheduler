@@ -196,7 +196,6 @@ public class Course {
         /// Proper code: 
     	// call checkGenerator on course then check waitlist etc
     	String url= "https://oscar.gatech.edu/pls/bprod/bwckschd.p_disp_detail_sched?term_in="+term+"&crn_in="+crn;
-    	//          "https://oscar.gatech.edu/pls/bprod/bwckschd.p_disp_detail_sched?term_in="+term+"&crn_in="+crn;
         Document doc = Jsoup.connect(url).get();
         Element table = doc.select("table").get(4);
         Elements rows = table.select("tr"); //  gets rows in table
@@ -211,7 +210,6 @@ public class Course {
     }
     	catch (Exception ex) {
     		System.out.println("errorin check"); //del
-    		ex.printStackTrace();
     		spotRemaining = 0;
     		waitRemaining = 0;
     	}
