@@ -171,20 +171,7 @@ public class SortingAlgorithm {
             for (Course b: a.getSectionsStudio()) {
             	if(!Arrays.asList(noCrn).contains(b.getCrn())){
             		
-	            	if(openCheck.equals("both")) { // does the same as above for loop for studios
-	            		b.checkGenerator();
-	            		if(b.getSpotRemaining() > 0 || b.getWaitRemaining() > 0) { // seats in lecture or waitlisr
-	            			sectionsStudio.add(b);
-	            		}
-	            	} else if (openCheck.contentEquals("one")){
-	            		b.checkGenerator();
-	            		if(b.getSpotRemaining() > 0) { // seats in lecture available
-	            		sectionsStudio.add(b); //
-	            		}
-	            	} else {
-	            		sectionsStudio.add(b); //no constraints
-	            	}
-	            }
+            		sectionsStudio.add(b); 
             }
             }
 
