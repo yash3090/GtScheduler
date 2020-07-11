@@ -76,11 +76,15 @@ public class Oscar {
         // creating arraylist of prof and gpa, by reading table
 
         /// Proper code:
-
+try {
         Document doc = Jsoup.connect(url).get();
         Elements body = doc.select("body");
         String bodyPage = body.text(); // gives entire page
         int tableCounter = 4;
+        
+        if(bodyPage.indexOf("No classes were found") != -1) {
+        	throw new RuntimeException();
+        }
 
         do {
 
@@ -88,7 +92,7 @@ public class Oscar {
             Elements rows = table.select("tr"); //  gets rows in table
             Element row = rows.get(1); // 1 gets second row which has all the info row1
             Elements cols = rows.select("td"); // gets into form col in 2nd row
-
+            
             String time = cols.get(1).text();
             String days = cols.get(2).text();
             String location = cols.get(3).text();
@@ -112,32 +116,81 @@ public class Oscar {
             int courseEnd = bodyPage.indexOf(" - ", courseStart + 1);
             String course = bodyPage.substring(courseStart, courseEnd);
 
-            System.out.println(course);
+      
 
             bodyPage = bodyPage.substring(courseEnd + 3);
             int secEnd = bodyPage.indexOf(" ");
             String section = bodyPage.substring(0, secEnd);
-
+           
 
             if (!time.equals("TBA")) {
                 int bufferIndex1 = bodyPage.indexOf(" - ");
                 bodyPage = bodyPage.substring(bufferIndex1 + 3);
             }
 
+            
+            
+            
+            
+            //int bufferIndex2 = bodyPage.indexOf(" - ");
+            //bodyPage = bodyPage.substring(bufferIndex2 + 3);
+
+            //tableCounter = tableCounter + 1;
+            
+            System.out.println(course); //chaneg to course
+            
+            
+            
+         // for multiple row in table
+            try {
+
+                for (int i =2; i<4; i++){
+
+                    row=rows.get(i);
+
+                    cols = row.select("td");
+
+
+                    if (days.indexOf(cols.get(2).text())  == -1){
+                        days = days+cols.get(2).text();
+                    }
+
+                    if (!time.equals("TBA")) {
+                        int bufferIndex1 = bodyPage.indexOf(" - ");
+                        bodyPage = bodyPage.substring(bufferIndex1 + 3);
+                    }
+                    int bufferIndex2 = bodyPage.indexOf(" - ");
+                    bodyPage = bodyPage.substring(bufferIndex2 + 3);
+
+                }
+            } catch(Exception ex) {
+
+            }
+
+
             int bufferIndex2 = bodyPage.indexOf(" - ");
             bodyPage = bodyPage.substring(bufferIndex2 + 3);
-            tableCounter = tableCounter + 1;
-
+            
             if (!time.equals("TBA")) {
                 if (type.indexOf("Lectu") != -1) {
+              
                     sectionsLecture.add(new Lecture(crn, section, courseName + courseNum, type, instructorName, location, time, days, term));
+                 
                 } else {
                     sectionsStudio.add(new Studio(crn, section, courseName + courseNum, type, instructorName, location, time, days, term));
+             
                 }
             }
+            
+            tableCounter = tableCounter + 1;
 
         } while(bodyPage.indexOf(" - ") != -1);
 
+} catch (IndexOutOfBoundsException ex) {
+	
+} catch(Exception ex) {
+	throw new IOException();
+}
 
 
 

@@ -9,11 +9,20 @@ public class Studio extends Course {
     private String courseType;
     private String professor;
     private String location;
+    private boolean isSync = false;
 
     public Studio (String crn, String section, String courseId, String courseType, String professor, String location, String time, String days, String term) {
         super(crn, section, courseId, courseType, professor, location, time, days, term);
         this.courseId = courseId.replaceAll(" ","");
 
+    }
+    
+    public boolean getIsSync() {
+    	return isSync;
+    }
+    
+    public void setIsSync(boolean sync) {
+    	this.isSync = sync;
     }
 
 }

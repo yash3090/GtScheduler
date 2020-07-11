@@ -51,7 +51,8 @@ public class Course {
      */
 
     public Course (String crn, String section, String courseId, String courseType, String professor, String location, String time, String days, String term) {
-        this.crn = crn;
+    	
+    	this.crn = crn;
         this.section = section;
         this.courseId = courseId.replaceAll(" ","");
         this.courseType = courseType;
@@ -183,9 +184,7 @@ public class Course {
      */
     
     /////
-    
-    String url= "https://oscar.gatech.edu/pls/bprod/bwckschd.p_disp_detail_sched?term_in="+term+"&crn_in="+crn;
-    
+      
     private int spotRemaining;
     private int waitRemaining;
     
@@ -196,7 +195,7 @@ public class Course {
 
         /// Proper code: 
     	// call checkGenerator on course then check waitlist etc
-
+    	String url= "https://oscar.gatech.edu/pls/bprod/bwckschd.p_disp_detail_sched?term_in="+term+"&crn_in="+crn;
         Document doc = Jsoup.connect(url).get();
         Element table = doc.select("table").get(4);
         Elements rows = table.select("tr"); //  gets rows in table
@@ -210,6 +209,7 @@ public class Course {
         waitRemaining = Integer.parseInt(colsTwo.get(2).text());
     }
     	catch (Exception ex) {
+    		System.out.println("errorin check"); //del
     		spotRemaining = 0;
     		waitRemaining = 0;
     	}

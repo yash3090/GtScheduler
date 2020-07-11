@@ -16,6 +16,7 @@ public class Lecture extends Course {
     private String professorMiddleName;
     private String professorLastName;
     private String location;
+   
 
     /**
      * constructor
@@ -70,30 +71,42 @@ public class Lecture extends Course {
  
     
     
+    
+    
    // trying
+    
     public Double rmpRating() {
     	Double rateMyProfRating = null;
     	for (String[] data: RateMyProf.tempprofessorlist){
-            if (data[0].equals(professorFirstName) && data[2].equals(professorLastName)) {
+    		
+    		if (professorFirstName.indexOf("-") != -1) {
+        		if (data[0].indexOf(professorFirstName.substring(0,professorFirstName.indexOf("-"))) != -1 && data[2].equals(professorLastName)) {
+                    if (!data[3].equals("N/A")) {
+                    	rateMyProfRating = Double.parseDouble(data[3]);
+                    }
+        		}
+        } else {
+        	if (data[0].equals(professorFirstName) && data[2].equals(professorLastName)) {
                 if (!data[3].equals("N/A")) {
                     rateMyProfRating = Double.parseDouble(data[3]);
                     
                 }
             }
         }
+        	
+        }
     	return rateMyProfRating;
     }
-    
-     
+       
     
     public Double GPAgetter() {
-    	ArrayList<String[]> profGPA = new ArrayList<String[]>();
-    CourseCritique b = new CourseCritique(courseId.substring(0, courseId.length()-4), courseId.substring(courseId.length()-4));
+    	ArrayList<String[]> profGPA = new ArrayList<String[]>();  	
+    	CourseCritique b = new CourseCritique(courseId.substring(0, courseId.length()-4), courseId.substring(courseId.length()-4));
     try {
         b.profAvgGpaGenerator();
     }
     catch(Exception ex){
-
+    	System.out.println("GPAERRR");
     }
     profGPA.addAll(b.getNameRating());
     
@@ -112,12 +125,37 @@ public class Lecture extends Course {
     return courseCritiqueRating;
     
     }
+    /*
+    
+    private Double rmpRating = rmpRating();
+    private Double Gpa = GPAgetter();
+    
+    public double lectureRating() {
+    	if (rmpRating == null && Gpa == null) {
+            return 5.0;
+        } else if (rmpRating == null && Gpa != null) {
+            return Gpa*(10.0/4);
+        } else if (rmpRating != null && Gpa == null) {
+            return rmpRating*1.6;
+        } else {
+            return (rmpRating + Gpa*(5.0/4));
+        }
+    }
+    
 
-    		
+    public Double rmpRatingGetter() {
+    	return rmpRating();
+    }
+    public Double GpaGetter() {
+    	return Gpa;
+    }
+    */		
    // 
     
     public double lectureRating (ArrayList<String[]> profData) throws IOException { // replace ioexpeception for m2 with another exception
-    	
+    	if (professorFirstName.equals("")){
+    		return 5;
+    	}
     	String temporaryName;
     	Double courseCritiqueRating = null;
         Double rateMyProfRating = null;
@@ -133,12 +171,23 @@ public class Lecture extends Course {
         }
 
         for (String[] data: RateMyProf.tempprofessorlist){
+        	if (professorFirstName.indexOf("-") != -1) {
+        		if (data[0].indexOf(professorFirstName.substring(0,professorFirstName.indexOf("-"))) != -1 && data[2].equals(professorLastName)) {
+        	
+                    if (!data[3].equals("N/A")) {
+                        rateMyProfRating = Double.parseDouble(data[3]);
+                        
+                    }
+                }
+        		
+        	}else {
             if (data[0].equals(professorFirstName) && data[2].equals(professorLastName)) {
                 if (!data[3].equals("N/A")) {
                     rateMyProfRating = Double.parseDouble(data[3]);
                     
                 }
             }
+        	}
         }
 
         if (rateMyProfRating == null && courseCritiqueRating == null) {
@@ -146,7 +195,7 @@ public class Lecture extends Course {
         } else if (rateMyProfRating == null && courseCritiqueRating != null) {
             return courseCritiqueRating*(10.0/4);
         } else if (rateMyProfRating != null && courseCritiqueRating == null) {
-            return rateMyProfRating*2.0;
+            return rateMyProfRating*1.6;
         } else {
             return (rateMyProfRating + courseCritiqueRating*(5.0/4));
         }

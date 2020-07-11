@@ -38,7 +38,9 @@ public class RateMyProf {
      */
     public static int profCounter() throws Exception{
         String a = "";
-        URL oracle = new URL("https://www.ratemyprofessors.com/filter/professor/?&page=1&filter=teacherlastname_sort_s+asc&query=*%3A*&queryoption=TEACHER&queryBy=schoolId&sid=361"); // URL to Parse
+        URL oracle = new URL("https://www.ratemyprofessors.com/filter/professor/?&page=40&filter=teacherlastname_sort_s+asc&query=*%3A*&queryoption=TEACHER&queryBy=schoolDetails&schoolID=361&schoolName=Georgia+Institute+of+Technology"); // URL to Parse
+        
+        //https://www.ratemyprofessors.com/filter/professor/?&page=7&filter=teacherlastname_sort_s+asc&query=*%3A*&queryoption=TEACHER&queryBy=schoolDetails&schoolID=361&schoolName=Georgia+Institute+of+Technology
         oracle.openStream();
         BufferedReader in = new BufferedReader(new InputStreamReader(oracle.openStream()));
         String inputLine;
@@ -59,16 +61,28 @@ public class RateMyProf {
      */
 
     public static void profRatingGenerator() {
-
+    	int i = 1;
         try {
-
-            int num_of_prof = profCounter();
-            int num_of_pages = (int) ((num_of_prof / 20.0) + 0.99);
-            int i = 1;
+        	
+            //int num_of_prof = profCounter();
+            //System.out.println(num_of_prof); //del
+        	
+        	
+        	
+            int num_of_pages = 150; //(int) (num_of_prof / 20.0); //change to 150 after debuggin
+            
+            
+            
+            
+            
+            //System.out.print(num_of_pages);//del
+            
             while (i <= num_of_pages) { // the loop insert all professor into list change 1 to numpages
                 boolean checker = true;
-                String finalUrl = "https://www.ratemyprofessors.com/filter/professor/?&page=" + Integer.toString(i) + "&filter=teacherlastname_sort_s+asc&query=*%3A*&queryoption=TEACHER&queryBy=schoolId&sid=361";
-                String a = "";
+                String finalUrl = "https://www.ratemyprofessors.com/filter/professor/?&page="+Integer.toString(i)+"&filter=teacherlastname_sort_s+asc&query=*%3A*&queryoption=TEACHER&queryBy=schoolId&sid=361";
+                
+                //https://www.ratemyprofessors.com/filter/professor/?&page=64&filter=teacherlastname_sort_s+asc&query=*%3A*&queryoption=TEACHER&queryBy=schoolId&sid=361
+                String a = "";    
                 URL oracle = new URL(finalUrl); // URL to Parse
                 oracle.openStream();
                 BufferedReader in = new BufferedReader(new InputStreamReader(oracle.openStream()));
@@ -77,6 +91,61 @@ public class RateMyProf {
                     a = a + inputLine;
                 }
                 String tempString = a;
+                
+                
+                
+                
+                if (i<=50) {
+                String finalUrlRev = "https://www.ratemyprofessors.com/filter/professor/?&page="+Integer.toString(i)+"&filter=teacherlastname_sort_s+desc&query=*%3A*&queryoption=TEACHER&queryBy=schoolId&sid=361";
+                String b="";
+                URL oracle1 = new URL(finalUrlRev);
+                BufferedReader inRev = new BufferedReader(new InputStreamReader(oracle1.openStream()));
+                String inputLineRev;
+                while ((inputLineRev = inRev.readLine()) != null) {
+                    b = b + inputLineRev;
+                }
+                String tempStringRev = b;
+                while (checker) {
+                    int tempIndex = tempStringRev.indexOf("tFname");
+                    tempStringRev = tempStringRev.substring(tempIndex);
+                    int tempIndexStart = tempStringRev.indexOf(":");
+                    int tempIndexEnd = tempStringRev.indexOf(",");
+                    String fName = tempStringRev.substring(tempIndexStart + 2, tempIndexEnd - 1);
+
+                    tempIndex = tempStringRev.indexOf("tMiddlename");
+                    tempStringRev = tempStringRev.substring(tempIndex);
+                    tempIndexStart = tempStringRev.indexOf(":");
+                    tempIndexEnd = tempStringRev.indexOf(",");
+                    String mName = tempStringRev.substring(tempIndexStart + 2, tempIndexEnd - 1);
+
+                    tempIndex = tempStringRev.indexOf("tLname");
+                    tempStringRev = tempStringRev.substring(tempIndex);
+                    tempIndexStart = tempStringRev.indexOf(":");
+                    tempIndexEnd = tempStringRev.indexOf(",");
+                    String lName = tempStringRev.substring(tempIndexStart + 2, tempIndexEnd - 1);
+
+                    tempIndex = tempStringRev.indexOf("overall_rating");
+                    tempStringRev = tempStringRev.substring(tempIndex);
+                    tempIndexStart = tempStringRev.indexOf(":");
+                    tempIndexEnd = tempStringRev.indexOf("}");
+                    String StrRating = tempStringRev.substring(tempIndexStart + 2, tempIndexEnd - 1);
+
+                    tempprofessorlist.add(new String[]{fName, mName, lName, StrRating});
+                    
+                 
+
+                    if (tempStringRev.indexOf("ResultsTotal") < 50) {  // checks when end of the lists of prof
+                        checker = false;
+                    }
+                
+                
+                }
+                }
+                
+                System.out.println(checker);
+                
+                checker=true;
+                
                 while (checker) {
                     int tempIndex = tempString.indexOf("tFname");
                     tempString = tempString.substring(tempIndex);
@@ -103,15 +172,29 @@ public class RateMyProf {
                     String StrRating = tempString.substring(tempIndexStart + 2, tempIndexEnd - 1);
 
                     tempprofessorlist.add(new String[]{fName, mName, lName, StrRating});
+                    
+                 
 
-                    if (tempString.indexOf("searchResultsTotal") < 100) {  // checks when end of the lists of prof
+                    if (tempString.indexOf("ResultsTotal") < 50) {  // checks when end of the lists of prof
                         checker = false;
                     }
+                    
+                    
+                    
+                    
                 }
+                
+                System.out.println(i);
                 i += 1;
+                
+                
+                
+                // https://www.ratemyprofessors.com/filter/professor/?&page=2&filter=teacherlastname_sort_s+desc&query=*%3A*&queryoption=TEACHER&queryBy=schoolId&sid=361
+                // above link starts from z
             }
         } catch(Exception ex) {
             System.out.println("RateMyProf rating generator error");
+            
         }
     }
 

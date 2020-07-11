@@ -1,7 +1,9 @@
 package com.controller;
+import java.util.Arrays;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 public class SortingAlgorithm {
 
@@ -51,7 +53,7 @@ public class SortingAlgorithm {
             timeConstraints = true;
         }  else if (Integer.parseInt(startTime) < 0 || Integer.parseInt(endTime)> 2400) { // throw error that  time mistake
             System.out.println("Timings Not in Range");
-            throw new RuntimeException();
+            throw new RuntimeException(); // change exxception and catch that to print diff efrror message
         } else {
             this.startTime = Integer.parseInt(startTime);
             this.endTime = Integer.parseInt(endTime);
@@ -64,13 +66,14 @@ public class SortingAlgorithm {
     /**
      * Array of all the possible timetables
      */
-    private  ArrayList<ArrayList<Course>> possibleTimeTable = new ArrayList<>();
+    //private  ArrayList<ArrayList<Course>> possibleTimeTable = new ArrayList<>();
+    private  ArrayList<Timetable> possibleTimeTable = new ArrayList<>();
 
     /**
      * getter method
      * @return
      */
-    public ArrayList<ArrayList<Course>> getPossibleTimeTable() {
+    public ArrayList<Timetable> getPossibleTimeTable() { //changed from arraylist<course> tot timtable
         return possibleTimeTable;
     }
 
@@ -92,64 +95,126 @@ public class SortingAlgorithm {
     
     //has to be called to initialize the arraylist of courses
     public void sort() {
+    	
         for (String course : courseList) {
             if(course == ""){
                 break;
             }
+            try {
             courseName = course.substring(0, course.indexOf(" "));
 
             courseNum = course.substring(course.indexOf(" ") + 1);
+            }catch (Exception ec) {
+                throw new NullPointerException(course);
+            }
 
             Oscar a = new Oscar(term, courseName, courseNum);
             try {
                 a.sectionGenerator(); // scrapes oscar for the particular course generating Arraylist of lectures and studios
             } catch (Exception ec) {
-                throw new RuntimeException();
+                throw new NullPointerException(courseName+courseNum);
                 
             }
 
             ArrayList<Course> sectionsLecture = new ArrayList<>();
-            for (Course b: a.getSectionsLecture()) {      
-            	
-            	if(openCheck.equals("both")) { // based on user input checks for availability of classes
-            		b.checkGenerator(); // goes to oscar of the particular course to check availibility of classes
-            		if(b.getSpotRemaining() > 0 || b. getWaitRemaining() > 0) {
-            			sectionsLecture.add(b);
-            		}
-            	} else if (openCheck.contentEquals("one")){
-            		b.checkGenerator();
-            		if(b.getSpotRemaining() > 0) {
+            // below for loop checks if wantCrn is a part of this course if yes then only that crn added, if not all crn satisfying below conditions added
+            boolean addMoreLecture = true;
+            for(Course b: a.getSectionsLecture()) {  
+            	if(Arrays.asList(wantCrn).contains(b.getCrn())){
             		sectionsLecture.add(b);
-            		}
-            	} else {
-            		sectionsLecture.add(b);
+            		addMoreLecture=false; // if it has crn then this false so no more lectures added --> reduces no. of possible timetables created and makes faster hopefully
+            		break;
             	}
             }
+            
+            if (addMoreLecture) {
+            for (Course b: a.getSectionsLecture()) {  
+            	
+            	// check if in wanted array list or in unwanted array list
+            	if(!Arrays.asList(noCrn).contains(b.getCrn())){ // esnures none of crn in nocrn list are added, moved up here instead of checking all courses for each timetable --> hopefully faster
+            		
+	            	if(openCheck.equals("both")) { // based on user input checks for availability of classes
+	            		b.checkGenerator(); 
+	            		// goes to oscar of the particular course to check availibility of classes
+	            		if(b.getSpotRemaining() > 0 || b.getWaitRemaining() > 0) {
+	            			sectionsLecture.add(b);
+	            		}
+	            	} else if (openCheck.contentEquals("one")){
+	            		b.checkGenerator();
+	            		if(b.getSpotRemaining() > 0) {
+	            		sectionsLecture.add(b);
+	            		}
+	            	} else {
+	            		sectionsLecture.add(b);
+	            	}
+	            }
+            }
+            
+            }
 
+            if ((a.getSectionsLecture()).size() == 0){
+            	
+                throw new IndexOutOfBoundsException();
+            }
             ArrayList<Course> sectionsStudio = new ArrayList<>();
-            for (Course b: a.getSectionsStudio()) {
-            	b.checkGenerator();
-            	if(openCheck.equals("both")) { // does the same as above for loop for studios
-            		if(b.getSpotRemaining() > 0 || b. getWaitRemaining() > 0) { // seats in lecture or waitlisr
-            			sectionsLecture.add(b);
-            		}
-            	} else if (openCheck.contentEquals("one")){
-            		if(b.getSpotRemaining() > 0) { // seats in lecture available
-            		sectionsLecture.add(b); //
-            		}
-            	} else {
-            		sectionsLecture.add(b); //no constraints
+            
+            boolean addMoreStudio = true;
+            for(Course b: a.getSectionsStudio()) {  
+            	if(Arrays.asList(wantCrn).contains(b.getCrn())){
+            		sectionsStudio.add(b);
+            		addMoreStudio=false; 
+            		break;
             	}
+            }
+            
+            if(addMoreStudio) {
+            for (Course b: a.getSectionsStudio()) {
+            	if(!Arrays.asList(noCrn).contains(b.getCrn())){
+            		
+	            	if(openCheck.equals("both")) { // does the same as above for loop for studios
+	            		b.checkGenerator();
+	            		if(b.getSpotRemaining() > 0 || b.getWaitRemaining() > 0) { // seats in lecture or waitlisr
+	            			sectionsStudio.add(b);
+	            		}
+	            	} else if (openCheck.contentEquals("one")){
+	            		b.checkGenerator();
+	            		if(b.getSpotRemaining() > 0) { // seats in lecture available
+	            		sectionsStudio.add(b); //
+	            		}
+	            	} else {
+	            		sectionsStudio.add(b); //no constraints
+	            	}
+	            }
+            }
             }
 
             // adds arraylist of lectures of one course to iterator
-            iterator.add((a.getSectionsLecture()));
-
+            iterator.add(sectionsLecture);
+            boolean syncer=false; // checks if studio/lab and lecture need to be synced if yes = true
             // tells program that studio present
             if ((a.getSectionsStudio()).size() > 0){
-                iterator.add((a.getSectionsStudio()));
+           
+            	for(Course s: a.getSectionsStudio()) {
+            		for(Course c: a.getSectionsLecture()) {
+            			if (s.getSection().indexOf(c.getSection()) != - 1) {
+            				syncer = true;
+            				
+            			}
+            		}
+            	}
+            	
+            	
+            	if(syncer) {
+            		for (Course s: sectionsStudio) {
+            			((Studio)s).setIsSync(syncer);
+            		}
+            		
+            	}
+                iterator.add(sectionsStudio);
                 isStudio = true;
             }
+            
+            System.out.println(syncer);
 
             CourseCritique b = new CourseCritique(courseName, courseNum);
             try {
@@ -160,6 +225,7 @@ public class SortingAlgorithm {
             }
             profGPA.addAll(b.getNameRating()); // adds it to profGPA
 
+            
 
         }
        
@@ -219,63 +285,43 @@ public class SortingAlgorithm {
             //matches lectures with studios/labs
             boolean matchLectureAndStudio = true;
             if (isStudio) {
-                matchLectureAndStudio = false;
+                
                 for (int ab = 0; ab < tempTimeTable.size(); ab++) {
                     if (tempTimeTable.get(ab) instanceof Studio) {
+                    	// add param in studio call sync
+                    	// if sync is true go and do below i.e check if same section, 
+                    	// else if not true then matchlectureandStuio is true as any recitation works with course
+                    	if(((Studio)tempTimeTable.get(ab)).getIsSync()) {
+                    
+                    	matchLectureAndStudio = false;
                         for (int ac = 0; ac < tempTimeTable.size(); ac++) {
                             if(tempTimeTable.get(ac) instanceof Lecture && ( (tempTimeTable.get(ab)).getCourseId() ).equals( (tempTimeTable.get(ac)).getCourseId() ) && (tempTimeTable.get(ab)).getSection().indexOf((tempTimeTable.get(ac)).getSection()) != -1 ) {
                                 matchLectureAndStudio = true;
                             }
                         }
-                    }
-                }
-            }
-            
-            // ensures timetable has the CRN user wants
-
-            boolean hasAllCrn = true;
-            if(wantCrn.length > 0){
-                for (String crn : wantCrn) {
-                    hasAllCrn = false;
-                    for  (int ab = 0; ab < tempTimeTable.size(); ab++) {
-                        if ((tempTimeTable.get(ab)).getCrn().equals(crn)) {
-                            hasAllCrn = true;
+                        
+                        if(matchLectureAndStudio == false) {
+                        	break;
                         }
-                    }
-                    if (!hasAllCrn) {
-                        break;
+                        
+                    	} 
                     }
                 }
-            } else {
-                hasAllCrn = true;
             }
-
             
-            // ensures timetables doesnt have user specified CRN 
+    
             
             // IDEA : what if we move this up while adding courses to iterator and remove the CRN then??
-            boolean hasNoneCrn = true;
-            if(noCrn.length > 0){
-                for (String crn : noCrn) {
-                    hasNoneCrn = true;
-                    for  (int ab = 0; ab < tempTimeTable.size(); ab++) {
-                        if ((tempTimeTable.get(ab)).getCrn().equals(crn)) {
-                            hasNoneCrn = false;
-                        }
-                    }
-                    if (!hasNoneCrn) {
-                        break;
-                    }
-                }
-            } else {
-                hasNoneCrn = true;
-            }
-
+           
             // checks if all conditions met
-            if(!DoesClash && hasAllCrn && hasNoneCrn && matchLectureAndStudio) {
-                possibleTimeTable.add(tempTimeTable);
-             
+            if(!DoesClash && matchLectureAndStudio) {
+               // possibleTimeTable.add(tempTimeTable); og code
+            	
+            	
+            	possibleTimeTable.add(new Timetable(tempTimeTable, profGPA));
+
             }
+             
 
 
             // moves to next possible course combination
@@ -307,10 +353,12 @@ public class SortingAlgorithm {
     /**
      * goes through all the possible timetables to find the one with the highest avg rating
      * @return best schedule
-     */
+     
+     
+     //og code
     public  List<Course> getBestSchedule(){
 
-        if(possibleTimeTable.size() < 0) {
+        if(possibleTimeTable.size() == 0) {
             return null; // or send an error message here
         }
         
@@ -338,7 +386,21 @@ public class SortingAlgorithm {
         }
         return bestSchedule;
     }
+    */
 
+    
+    
+    
+    public List<Timetable> sortTimeTable() {
+    	if(possibleTimeTable.size() == 0) {
+    		System.out.println("null");//remove
+        	return null; // or send an error message here
+    	}
+    	
+    	System.out.println("sort"); // remove
+    	Collections.sort(possibleTimeTable);
+    	return possibleTimeTable; 	
+    }
 
     /**
      * used to set term must be in format 202008/ 201908
