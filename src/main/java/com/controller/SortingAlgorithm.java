@@ -174,6 +174,7 @@ public class SortingAlgorithm {
             		sectionsStudio.add(b); 
             }
             }
+            }
 
             // adds arraylist of lectures of one course to iterator
             iterator.add(sectionsLecture);

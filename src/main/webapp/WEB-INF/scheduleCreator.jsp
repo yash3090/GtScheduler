@@ -121,6 +121,11 @@ Note: There can be multiple CRNs for one course, this field can be used for remo
                 <br>
                 <Table>
                 
+                <tr>
+                <td></td>
+                <td style="color:white">* Note only lectures are taken into account</td>
+                </tr>
+                
                 <tr width="100%">
        
                     
