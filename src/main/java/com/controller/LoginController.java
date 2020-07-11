@@ -28,7 +28,9 @@ public class LoginController {
     
     @RequestMapping(value="/scheduleCreator", method = RequestMethod.GET)
     public String showLoginPage(ModelMap model){
+    	RateMyProf.profRatingGenerator();
         return "scheduleCreator"; // scheduleCreator jsp in webapp/WEB-INF
+        
     }
     
     
@@ -66,12 +68,9 @@ public class LoginController {
     	a.sort();
     	//b = a.getBestSchedule();
     	
-    	try {
-    	RateMyProf.profRatingGenerator();
-    	}catch (Exception ex) {
-    		model.put("errorMessage", "All RateMyProfessor ratings may not have been generated");
-    		
-    	}
+    	
+    	
+    	
     	
     	
     	b = new ArrayList<>(a.sortTimeTable());
