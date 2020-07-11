@@ -392,7 +392,7 @@ public class SortingAlgorithm {
     
     
     public List<Timetable> sortTimeTable() {
-    	if(possibleTimeTable.size() == 0 || possibleTimeTable == null) {
+    	if(possibleTimeTable.size() == 0) {
     		System.out.println("null");//remove
         	return null; // or send an error message here
     	}
