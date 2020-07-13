@@ -90,11 +90,12 @@ public class SortingAlgorithm {
 
     /**
      * generates all possible timetables and stores it in possibleTimeTable arraylist
+     * @return 
      */
 
     
     //has to be called to initialize the arraylist of courses
-    public void sort() {
+    public List<Timetable> sort() {
     	
         for (String course : courseList) {
             if(course == ""){
@@ -327,7 +328,10 @@ public class SortingAlgorithm {
             }
 
         }
-
+        
+        
+        List<Timetable> a = sortTimeTable();
+        return a;
     }
 
     /**

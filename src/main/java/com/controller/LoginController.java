@@ -65,15 +65,15 @@ public class LoginController {
         }
     	
     	try {  // runs the code
-    	a.sort();
+    	//a.sort();
     	//b = a.getBestSchedule();
     	
     	
     	
     	
     	
-    	
-    	b = new ArrayList<>(a.sortTimeTable());
+    	b = new ArrayList<>(a.sort());
+    	//b = new ArrayList<>(a.sortTimeTable());
     	
     	  
     	if ( b == null) {
@@ -87,6 +87,7 @@ public class LoginController {
     	
     	} catch(NullPointerException ex) {
     		model.put("errorMessage", "Incorrect Course Name or Course Format at: " + ex.getMessage());
+    		ex.printStackTrace();
         	return "scheduleCreator"; 
     	}catch(IndexOutOfBoundsException ex) {
     		model.put("errorMessage", "No schedules available with these constraints");
