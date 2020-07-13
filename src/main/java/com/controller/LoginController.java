@@ -28,7 +28,7 @@ public class LoginController {
     
     @RequestMapping(value="/scheduleCreator", method = RequestMethod.GET)
     public String showLoginPage(ModelMap model){
-    	RateMyProf.profRatingGenerator();
+    	//RateMyProf.profRatingGenerator();
         return "scheduleCreator"; // scheduleCreator jsp in webapp/WEB-INF
         
     }
@@ -87,7 +87,7 @@ public class LoginController {
     	
     	} catch(NullPointerException ex) {
     		model.put("errorMessage", "Incorrect Course Name or Course Format at: " + ex.getMessage());
-    		ex.printStackTrace();
+  
         	return "scheduleCreator"; 
     	}catch(IndexOutOfBoundsException ex) {
     		model.put("errorMessage", "No schedules available with these constraints");
