@@ -157,6 +157,7 @@ public class LoginController {
 	 model.put("errorMessage", "");
 	 
 	 model.put("courses", b.get(count).timetable);
+	 counter = count;
     	
     return "Welcome";
     	
