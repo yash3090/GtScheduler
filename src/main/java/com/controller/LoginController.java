@@ -101,7 +101,6 @@ public class LoginController {
     	}
     	
     	
-    	model.put("possibleTimetables", b);
     	
         model.put("courses", b.get(0).timetable); // change .get() to count which changes when next clicked
         // changed it from 
@@ -116,9 +115,10 @@ public class LoginController {
       public String showNext(ModelMap model){
     	 
     	  
-  
+    	  counter = counter +1;
+ 
+  		
 	  		if (0 <=counter && counter+1 < b.size()){
-	  			 counter = counter +1;
 	          model.put("courses", b.get(counter).timetable);
 	          return "Welcome";
 	  		} else {
@@ -137,14 +137,13 @@ public class LoginController {
       public String showPrev(ModelMap model){
   		
     	
-    	  
+    	  counter = counter -1;
     	  
     	 
     	  
   		
-	  		if (1 <=counter && counter+1 < b.size()){
+	  		if (0 <=counter && counter+1 < b.size()){
 	          model.put("courses", b.get(counter).timetable);
-	          counter = counter -1;
 	          return "Welcome";
 	          } else {
 	        	  model.put("courses", b.get(counter).timetable);

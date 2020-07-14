@@ -190,7 +190,6 @@ public class Course {
     
     public void checkGenerator() {
 
-    	if(spotRemaining == -1 && waitRemaining == -1) {
     	try {
         // creating arraylist of prof and gpa, by reading table
 
@@ -215,7 +214,6 @@ public class Course {
     		
     		spotRemaining = -1;
     		waitRemaining = -1;
-    	}
     	}
     }
     

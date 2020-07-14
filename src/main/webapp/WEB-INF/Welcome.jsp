@@ -79,16 +79,9 @@ img {
 </tr>
 
 <% 
-b = (ArrayList<Timetable>)request.getAttribute("possibleTimetables");
-for(int i = 0;i< b.size();i++){
-	for (Course c: b.get(i).timetable){
-		c.checkGenerator();
-	}
-	
-}
 
 for(Course e: (ArrayList<Course>)request.getAttribute("courses")) { 
-
+e.checkGenerator();
 %>
 <tr>
 
