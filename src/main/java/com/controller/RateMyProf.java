@@ -139,8 +139,6 @@ public class RateMyProf {
                 }
                 }
                 
-                System.out.println(checker);
-                
                 checker=true;
                 
                 while (checker) {
