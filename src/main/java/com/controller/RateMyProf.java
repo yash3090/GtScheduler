@@ -33,23 +33,7 @@ public class RateMyProf {
      * @return total number of prof in gatech on RateMyProf
      * @throws Exception
      */
-    public static int profCounter() throws Exception{
-        String a = "";
-        URL oracle = new URL("https://www.ratemyprofessors.com/filter/professor/?&page=40&filter=teacherlastname_sort_s+asc&query=*%3A*&queryoption=TEACHER&queryBy=schoolDetails&schoolID=361&schoolName=Georgia+Institute+of+Technology"); // URL to Parse
-        
-        //https://www.ratemyprofessors.com/filter/professor/?&page=7&filter=teacherlastname_sort_s+asc&query=*%3A*&queryoption=TEACHER&queryBy=schoolDetails&schoolID=361&schoolName=Georgia+Institute+of+Technology
-        oracle.openStream();
-        BufferedReader in = new BufferedReader(new InputStreamReader(oracle.openStream()));
-        String inputLine;
-        while ((inputLine = in.readLine()) != null) {
-            a = a + inputLine;
-        }
-        int start = a.indexOf("searchResultsTotal");
-        a = a.substring(start);
-        int end = a.indexOf(",");
-        int totalProf = Integer.parseInt(a.substring(20,end));
-        return totalProf;
-    }
+
 
     /**
      * Adds to arraylist #tempprofessorlist# String[] with all the prof {firstname, middlename, lastname, rating}
