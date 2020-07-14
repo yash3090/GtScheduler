@@ -210,6 +210,7 @@ public class Course {
     }
     	catch (Exception ex) {
     		System.out.println("errorin check"); //del
+    		ex.printStackTrace();
     		
     		spotRemaining = -1;
     		waitRemaining = -1;
