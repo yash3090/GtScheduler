@@ -131,11 +131,12 @@ public class SortingAlgorithm {
             if (addMoreLecture) {
             for (Course b: a.getSectionsLecture()) { 
             	try {
-            	if(k<3) {
+            	if(k<2) {
             	b.checkGenerator();
             	k++;
             	}
             	}catch(Exception ex) {
+            		ex.printStackTrace();
             		
             	}
             	// check if in wanted array list or in unwanted array list
