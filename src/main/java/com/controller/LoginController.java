@@ -35,7 +35,7 @@ public class LoginController {
     
     
     @RequestMapping(value="/scheduleCreator", method = RequestMethod.POST)
-    public String showWelcomePage(ModelMap model, @RequestParam String courses, @RequestParam String startTime, @RequestParam String endTime, @RequestParam String wantedCRN, @RequestParam String unwantedCRN, @RequestParam String year, @RequestParam String Term, @RequestParam String openCheck ){
+    public String showWelcomePage(ModelMap model, @RequestParam String courses, @RequestParam String startTime, @RequestParam String endTime, @RequestParam String wantedCRN, @RequestParam String unwantedCRN, @RequestParam String year, @RequestParam String Term){
     	
     
     	String term;
@@ -44,13 +44,13 @@ public class LoginController {
     	try {
     		term = year+Term;
         	if(!wantedCRN.equals("") && !unwantedCRN.equals("")) {
-        		a = new SortingAlgorithm(courses.split(","), wantedCRN.split(","), unwantedCRN.split(","), startTime, endTime, term, openCheck);
+        		a = new SortingAlgorithm(courses.split(","), wantedCRN.split(","), unwantedCRN.split(","), startTime, endTime, term);
         	} else if (wantedCRN.equals("") && !unwantedCRN.equals("")) {
-        		 a = new SortingAlgorithm(courses.split(","), new String[]{} , unwantedCRN.split(","), startTime, endTime, term, openCheck);
+        		 a = new SortingAlgorithm(courses.split(","), new String[]{} , unwantedCRN.split(","), startTime, endTime, term);
         	} else if(!wantedCRN.equals("") && unwantedCRN.equals("")) {
-        		 a = new SortingAlgorithm(courses.split(","), wantedCRN.split(","), new String[]{} , startTime, endTime, term, openCheck);
+        		 a = new SortingAlgorithm(courses.split(","), wantedCRN.split(","), new String[]{} , startTime, endTime, term);
         	} else {
-        		 a = new SortingAlgorithm(courses.split(","), new String[]{}, new String[]{} , startTime, endTime, term, openCheck);
+        		 a = new SortingAlgorithm(courses.split(","), new String[]{}, new String[]{} , startTime, endTime, term);
         	}
                 	
         	if (year.equals("")) {
@@ -107,8 +107,46 @@ public class LoginController {
     }
     
     
+    @RequestMapping(value="/sortlecture", method = RequestMethod.GET)
+    public String sortbylecture(ModelMap model){
+   
+    	counter=0;
+    	a.setOpenCheck("one");
+	 
+	 if (a.checkAvailability()==null || a.checkAvailability().size()==0) {
+		 model.put("errorMessage", "No schedules available with these constraints");
+		 model.put("courses", b.get(0).timetable);
+		 return "Welcome";
+	 }
+	 model.put("errorMessage", "");
+	 b = new ArrayList(a.checkAvailability());
+	 model.put("courses", b.get(0).timetable);
+    	
+    return "Welcome";
+    	
+    }
     
-  
+    
+    
+    
+    @RequestMapping(value="/sortboth", method = RequestMethod.GET)
+    public String sortonboth(ModelMap model){
+     	
+    	counter=0;
+    	a.setOpenCheck("both");
+    	
+	 if (a.checkAvailability()==null || a.checkAvailability().size()==0) {
+		 model.put("errorMessage", "No schedules available with these constraints");
+		 model.put("courses", b.get(0).timetable);
+		 return "Welcome";
+	 }
+	 model.put("errorMessage", "");
+	 b = new ArrayList(a.checkAvailability());
+	 model.put("courses", b.get(0).timetable);
+    	
+    return "Welcome";
+    	
+    }
     
       @RequestMapping(value="/next", method = RequestMethod.GET)
       public String showNext(ModelMap model){
@@ -116,13 +154,13 @@ public class LoginController {
   		if (0 <=counter && counter+1 < b.size()){
   			
   			counter= counter+1;//del
-  			System.out.println(counter);
+  			
         
           model.put("courses", b.get(counter).timetable);
           return "Welcome";
           } else {
         	  model.put("courses", b.get(counter).timetable);
-        	  model.put("errorMessage", "No more schedules with these constraints");
+        	  model.put("errorMessage", "No more schedules available");
         	  return "Welcome";
           }
       }
@@ -133,7 +171,7 @@ public class LoginController {
   		
   		if (0 <=counter-1 && counter <= b.size()){
   			counter= counter-1;
-  			System.out.println(counter);//del
+  			
         
           model.put("courses", b.get(counter).timetable);
           return "Welcome";

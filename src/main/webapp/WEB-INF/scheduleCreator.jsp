@@ -119,28 +119,7 @@ Note: There can be multiple CRNs for one course, this field can be used for remo
                 </tr>
                 </Table>
                 <br>
-                <Table>
-                
-                <tr>
-                <td></td>
-                <td style="color:white">* Note only lectures are taken into account</td>
-                </tr>
-                
-                <tr width="100%">
-       
-                    
-                    <td width="25%" style="color:gold"><input type="radio" name="openCheck" 
-                        value="one"> Lectures which only have free slots </td>
-                        
-                    <td width="30%" style="color:gold"><input type="radio" name="openCheck" value="both" 
-					    checked> Lectures which have slots open or seats on waitlis</td>
-					    
-					    <td width="30%" style="color:gold"><input type="radio" name="openCheck" value="blah" 
-					    checked>Don't take into account availability of seats</td>
-                   
-                </tr>
-                
-         </Table>
+
          <br>
          <br>
         <input type="submit" />

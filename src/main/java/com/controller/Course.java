@@ -185,8 +185,8 @@ public class Course {
     
     /////
       
-    private int spotRemaining;
-    private int waitRemaining;
+    private int spotRemaining = -1;
+    private int waitRemaining = -1;
     
     public void checkGenerator() {
 
@@ -210,9 +210,9 @@ public class Course {
     }
     	catch (Exception ex) {
     		System.out.println("errorin check"); //del
-    		ex.printStackTrace();
-    		spotRemaining = 0;
-    		waitRemaining = 0;
+    		
+    		spotRemaining = -1;
+    		waitRemaining = -1;
     	}
     }
     

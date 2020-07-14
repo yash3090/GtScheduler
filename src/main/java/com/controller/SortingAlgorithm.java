@@ -21,7 +21,7 @@ public class SortingAlgorithm {
     private int startTime;
     private int endTime;
     private boolean timeConstraints = false;
-    private String openCheck;
+    private String openCheck = "ble";
 
     /**
      * constructor
@@ -32,7 +32,7 @@ public class SortingAlgorithm {
      * @param endTime constraints for max class end time
      */
 
-    public SortingAlgorithm(String[] courseList, String[] wantCrn, String[] noCrn, String startTime, String endTime, String term, String openCheck) { // starttime and endtime in 2400 format
+    public SortingAlgorithm(String[] courseList, String[] wantCrn, String[] noCrn, String startTime, String endTime, String term) { // starttime and endtime in 2400 format
         this.courseList = courseList;
         this.wantCrn = wantCrn;
         this.noCrn = noCrn;
@@ -406,5 +406,42 @@ public class SortingAlgorithm {
     }
     
     
+    
+    
+    public List<Timetable> checkAvailability(){
+    	List<Timetable> checkedTimetable = new ArrayList<>();
+    	
+    	for(int i =0; i< possibleTimeTable.size();i++) {
+    		boolean isAvailable = true;
+    		for(Course c: possibleTimeTable.get(i).timetable) {
+    			if(c.getSpotRemaining() == -1 || c.getWaitRemaining()==-1) {
+    				c.checkGenerator();
+    			}
+    		
+    			if(openCheck.equals("both")) { // based on user input checks for availability of classes
+    	    		if(c.getSpotRemaining() <= 0 && c.getWaitRemaining() <= 0) {//check logic
+    	    			isAvailable = false;
+    	    		}
+    			
+    			} else if (openCheck.contentEquals("one")){
+	    		
+		    		if(c.getSpotRemaining() <= 0) {
+		    			isAvailable = false;
+		    		}
+    			}
+    		}
+    		
+    		if (isAvailable) {
+    			checkedTimetable.add(possibleTimeTable.get(i));
+    		}
+    	}
+    	
+    	return checkedTimetable;
+    	
+    }
+    
+    public void setOpenCheck(String openCheck) {
+    	this.openCheck = openCheck;
+    }
     
 }
