@@ -107,91 +107,16 @@ public class LoginController {
         return "Welcome"; // page with schedule
     }
     
+
     
-    @RequestMapping(value="/sortlecture", method = RequestMethod.GET)
-    public String sortbylecture(ModelMap model){
    
-    	counter=0;
-    	a.setOpenCheck("one");
-    	 int count=0;
-	 
-    	while(a.checkAvailability(b.get(count))==null) {
-		
-		 if(count == b.size()-1) {
-			 model.put("errorMessage", "No schedules available with free or waitlist spots");
-			 model.put("courses", b.get(0).timetable);
-			 return "Welcome";
-			 }
-			 count  = count +1;
-		 }
-		 
-		 
-		 model.put("errorMessage", "");
-		 
-		 model.put("courses", b.get(count).timetable);
-	    	
-	    return "Welcome";
-    }
-    
-    
-    
-    
-    @RequestMapping(value="/sortboth", method = RequestMethod.GET)
-    public String sortonboth(ModelMap model){
-     	
-    	counter=0;
-    	a.setOpenCheck("both");
-    	
-    int count=0;
-	 while(a.checkAvailability(b.get(count))==null) {
-		 
-		 if(count == b.size()-1) {
-		 model.put("errorMessage", "No schedules available with only free slots");
-		 model.put("courses", b.get(0).timetable);
-		 return "Welcome";
-		 }
-		 count  = count +1;
-	 }
-	 
-	 
-	 model.put("errorMessage", "");
-	 
-	 model.put("courses", b.get(count).timetable);
-	 counter = count;
-    	
-    return "Welcome";
-    	
-    }
     
       @RequestMapping(value="/next", method = RequestMethod.GET)
       public String showNext(ModelMap model){
-    	  tempCounter = counter;
+    	 
     	  
     	  counter = counter +1;
-    	  
-    	  if (a.getOpenCheck().equals("both") || a.getOpenCheck().contentEquals("one")){
-    		  	
-    			  while(a.checkAvailability(b.get(counter))==null) {
-    				  if (0 <=counter && counter+1 < b.size()){
-    	    			  counter= counter+1;//del
-    				  }else {
-    					  counter=tempCounter;
-    					  model.put("courses", b.get(counter).timetable);
-        	        	  model.put("errorMessage", "No more schedules available");
-        	        	  return "Welcome";
-    					  
-    			  }
-    	  			
-    	  			
-    	        
-    	          model.put("courses", b.get(counter).timetable);
-    	          return "Welcome";
-    	          
-    	         
-    	
-    			  }
-    	  }
-    	  
+ 
   		
 	  		if (0 <=counter && counter+1 < b.size()){
 	          model.put("courses", b.get(counter).timetable);
@@ -211,32 +136,10 @@ public class LoginController {
       @RequestMapping(value="/prev", method = RequestMethod.GET)
       public String showPrev(ModelMap model){
   		
-    	  tempCounter = counter;
-    	  
+    	
     	  counter = counter -1;
     	  
-    	  if (a.getOpenCheck().equals("both") || a.getOpenCheck().contentEquals("one")){
-    		  	
-    			  while(a.checkAvailability(b.get(counter))==null) {
-    				  if (0 <=counter && counter+1 < b.size()){
-    	    			  counter= counter-1;//del
-    				  }else {
-    					  counter=tempCounter;
-    					  model.put("courses", b.get(counter).timetable);
-        	        	  model.put("errorMessage", "This is the best Schedule available");
-        	        	  return "Welcome";
-    					  
-    			  }
-    	  			
-    	  			
-    	        
-    	          model.put("courses", b.get(counter).timetable);
-    	          return "Welcome";
-    	          
-    	         
-    	
-    			  }
-    	  }
+    	 
     	  
   		
 	  		if (0 <=counter && counter+1 < b.size()){

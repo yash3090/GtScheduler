@@ -226,7 +226,9 @@ public class Course {
     }
 
     
-    
+    public String toString() {
+    	return  "waitlist spots: " + Integer.toString(this.getWaitRemaining()) + "Free spots: " + Integer.toString(this.getSpotRemaining()) ;
+    }
     
     /////
 

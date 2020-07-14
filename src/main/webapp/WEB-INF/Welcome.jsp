@@ -73,14 +73,19 @@ img {
 <td style="color:#CC6600"> <b>CRN</b> </td>
 <td style="color:#CC6600"> <b>Rate My Professor Rating </b></td>
 <td style="color:#CC6600"><b> Average GPA </b></td>
+<td style="color:#CC6600"><b> # Waitlist Spots </b></td>
+<td style="color:#CC6600"><b> # Free Spots </b></td>
 
 </tr>
 
 <% 
 
-for(Course e: (ArrayList<Course>)request.getAttribute("courses")) { %>
+for(Course e: (ArrayList<Course>)request.getAttribute("courses")) { 
+e.checkGenerator();
+%>
 <tr>
-<td><%= e.getCourseId() %></td>
+
+<td> <%= e.getCourseId() %></td>
 <td><%= e.getCourseType() %> </td>
 <td> <%= e.getTime() %></td>
 <td> <%= e.getDays() %></td>
@@ -88,6 +93,8 @@ for(Course e: (ArrayList<Course>)request.getAttribute("courses")) { %>
 <td><b><%= e.getCrn()%></b></td>
 <td> <% if(e instanceof Lecture) {out.print(((Lecture)e).rmpRating());} else{out.print("N/A");} %></td>
 <td> <% if(e instanceof Lecture) {out.print(((Lecture)e).GPAgetter());} else{out.print("N/A");} %> </td>
+<td> <%= e.getWaitRemaining() %>
+<td><%=e.getSpotRemaining() %>
 </tr>
 
 <%} %>
@@ -97,22 +104,6 @@ for(Course e: (ArrayList<Course>)request.getAttribute("courses")) { %>
 <br>
 <center>
 
-<Table>
-
-<tr>
-       
-                    
-                    <td><input type="radio" name="openCheck" onclick="location.href ='/sortlecture'"
-                        value="one"><b> Select for Timetables with sections which only have free slots</b> </td>
-                        
-                    <td><input type="radio" name="openCheck" value="both" onclick="location.href ='/sortboth'"
-					    checked> <b> Select for Timetables with sections which have free slots or seats on waitlist</b></td>
-					    
-					
-                   
-                </tr>
-                
-         </Table>
 
 </center>
 
