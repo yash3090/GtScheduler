@@ -96,7 +96,7 @@ public class SortingAlgorithm {
     
     //has to be called to initialize the arraylist of courses
     public List<Timetable> sort() {
-    	
+    	int k =0;
         for (String course : courseList) {
             if(course == ""){
                 break;
@@ -129,8 +129,15 @@ public class SortingAlgorithm {
             }
             
             if (addMoreLecture) {
-            for (Course b: a.getSectionsLecture()) {  
-            	
+            for (Course b: a.getSectionsLecture()) { 
+            	try {
+            	if(k<3) {
+            	b.checkGenerator();
+            	k++;
+            	}
+            	}catch(Exception ex) {
+            		
+            	}
             	// check if in wanted array list or in unwanted array list
             	if(!Arrays.asList(noCrn).contains(b.getCrn())){ // esnures none of crn in nocrn list are added, moved up here instead of checking all courses for each timetable --> hopefully faster
             		
