@@ -414,6 +414,7 @@ public class SortingAlgorithm {
     	for(int i =0; i< possibleTimeTable.size();i++) {
     		boolean isAvailable = true;
     		for(Course c: possibleTimeTable.get(i).timetable) {
+    			if(c instanceof Lecture) {
     			if(c.getSpotRemaining() == -1 || c.getWaitRemaining()==-1) {
     				c.checkGenerator();
     			}
@@ -430,10 +431,12 @@ public class SortingAlgorithm {
 		    		}
     			}
     		}
+    		}
     		
     		if (isAvailable) {
     			checkedTimetable.add(possibleTimeTable.get(i));
     		}
+    		
     	}
     	
     	return checkedTimetable;
