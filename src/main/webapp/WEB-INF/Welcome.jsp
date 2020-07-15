@@ -81,7 +81,9 @@ img {
 <% 
 
 for(Course e: (ArrayList<Course>)request.getAttribute("courses")) { 
-
+if(e instanceof Studio){
+	e.checkGenerator();
+}
 %>
 <tr>
 
@@ -103,7 +105,7 @@ for(Course e: (ArrayList<Course>)request.getAttribute("courses")) {
 </center>
 <br>
 
-
+<center>
 
 <Table>
 

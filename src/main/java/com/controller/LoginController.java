@@ -113,20 +113,41 @@ public class LoginController {
     
       @RequestMapping(value="/next", method = RequestMethod.GET)
       public String showNext(ModelMap model){
-    	 
-    	  
-    	  counter = counter +1;
- 
-  		
-	  		if (0 <=counter && counter+1 < b.size()){
-	          model.put("courses", b.get(counter).timetable);
-	          return "Welcome";
-	  		} else {
-	  		model.put("courses", b.get(counter).timetable);
-	  		model.put("errorMessage", "No more schedules available");
-	  		return "Welcome";
-	  		}
+    	
 	          
+		
+	  		
+	  		tempCounter = counter;
+	  		
+	  		if (0 <=counter && counter+1 < b.size()){
+	  			counter = counter +1;
+	  			if (a.getOpenCheck().equals("both") || a.getOpenCheck().equals("one")){
+	  				while(a.checkAvailability(b.get(counter))==null) {
+	    				  if (0 <=counter && counter+1 < b.size()){
+	    	    			  counter= counter+1;//del
+	    				  } else {
+	    					  counter=tempCounter;
+	    					  model.put("courses", b.get(counter).timetable);
+	        	        	  model.put("errorMessage", "No more schedules available");
+	        	        	  return "Welcome";
+	    				  }
+	  				}
+	  				
+	  				model.put("courses", b.get(counter).timetable);
+	    	        return "Welcome";
+	  			} else {
+	  				model.put("courses", b.get(counter).timetable);
+	  				return "Welcome";
+	  			}  
+	  		} else {
+	  			counter=tempCounter;
+				model.put("courses", b.get(counter).timetable);
+	        	model.put("errorMessage", "No more schedules available");
+	        	return "Welcome";
+	  		}
+	  		
+	  			
+	    	  
     	  
       }
       
@@ -137,20 +158,36 @@ public class LoginController {
       public String showPrev(ModelMap model){
   		
     	
-    	  counter = counter -1;
-    	  
-    	 
-    	  
-  		
-	  		if (0 <=counter && counter+1 < b.size()){
-	          model.put("courses", b.get(counter).timetable);
-	          return "Welcome";
-	          } else {
-	        	  model.put("courses", b.get(counter).timetable);
-	        	  model.put("errorMessage", "This is the best Schedule available");
-	        	  return "Welcome";
-	          }
-    	  
+
+	  		tempCounter = counter;
+	  		
+	  		if (0 <counter && counter+1 < b.size()){
+	  			counter = counter -1;
+	  			if (a.getOpenCheck().equals("both") || a.getOpenCheck().equals("one")){
+	  				while(a.checkAvailability(b.get(counter))==null) {
+	    				  if (0 <counter && counter+1 < b.size()){
+	    	    			  counter= counter-1;//del
+	    				  } else {
+	    					  counter=tempCounter;
+	    					  model.put("courses", b.get(counter).timetable);
+	        	        	  model.put("errorMessage", "This is the best possible schedule");
+	        	        	  return "Welcome";
+	    				  }
+	  				}
+	  				
+	  				model.put("courses", b.get(counter).timetable);
+	    	        return "Welcome";
+	  			} else {
+	  				model.put("courses", b.get(counter).timetable);
+	  				return "Welcome";
+	  			}  
+	  		} else {
+	  			counter=tempCounter;
+				model.put("courses", b.get(counter).timetable);
+	        	model.put("errorMessage", "This is the best possible schedule");
+	        	return "Welcome";
+	  		}
+	  		
       }
    
       

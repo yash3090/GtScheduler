@@ -191,7 +191,7 @@ public class Lecture extends Course {
         }
 
         if (rateMyProfRating == null && courseCritiqueRating == null) {
-            return 5.0;
+            return 5;
         } else if (rateMyProfRating == null && courseCritiqueRating != null) {
             return courseCritiqueRating*(10.0/4);
         } else if (rateMyProfRating != null && courseCritiqueRating == null) {
