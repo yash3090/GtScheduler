@@ -81,7 +81,7 @@ img {
 <% 
 
 for(Course e: (ArrayList<Course>)request.getAttribute("courses")) { 
-e.checkGenerator();
+
 %>
 <tr>
 
@@ -102,7 +102,25 @@ e.checkGenerator();
 </table>
 </center>
 <br>
-<center>
+
+
+
+<Table>
+
+<tr>
+       
+                    
+                    <td><input type="radio" name="openCheck" onclick="location.href ='/sortlecture'"
+                        value="one"><b> Select for Timetables with sections which only have free slots</b> </td>
+                        
+                    <td><input type="radio" name="openCheck" value="both" onclick="location.href ='/sortboth'"
+					    checked> <b> Select for Timetables with sections which have free slots or seats on waitlist</b></td>
+					    
+					
+                   
+                </tr>
+                
+         </Table>
 
 
 </center>

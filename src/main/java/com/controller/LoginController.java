@@ -153,5 +153,54 @@ public class LoginController {
     	  
       }
    
+      
+      
+      
+      @RequestMapping(value="/sortboth", method = RequestMethod.GET)
+      public String sortonboth(ModelMap model){
+       	
+      	counter=0;
+      	a.setOpenCheck("both");
+      	
+  	 if (a.checkAvailability(b.get(counter))==null) {
+  		 counter= counter+1;
+  		 if(counter == b.size()-1) {
+	  		 model.put("errorMessage", "No schedules available with these constraints");
+	  		 model.put("courses", b.get(0).timetable);
+	  		 counter = 0;
+	  		 return "Welcome";
+  		 }
+  	 }
+  	 model.put("errorMessage", "");
+  	 
+  	 model.put("courses", b.get(counter).timetable);
+      	
+      return "Welcome";
+      	
+      }
+      
+      
+      
+      @RequestMapping(value="/sortlecture", method = RequestMethod.GET)
+      public String sortbylecture(ModelMap model){
+     
+    	  counter=0;
+        	a.setOpenCheck("both");
+        	
+    	 if (a.checkAvailability(b.get(counter))==null) {
+    		 counter= counter+1;
+    		 if(counter == b.size()-1) {
+  	  		 model.put("errorMessage", "No schedules available with these constraints");
+  	  		 model.put("courses", b.get(0).timetable);
+  	  		 counter = 0;
+  	  		 return "Welcome";
+    		 }
+    	 }
+    	 model.put("errorMessage", "");
+    	 
+    	 model.put("courses", b.get(counter).timetable);
+        	
+        return "Welcome";
+      }
 }
 
