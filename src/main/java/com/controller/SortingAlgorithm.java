@@ -130,7 +130,7 @@ public class SortingAlgorithm {
             
             if (addMoreLecture) {
             for (Course b: a.getSectionsLecture()) { 
-            	
+            	b.checkGenerator();
             	// check if in wanted array list or in unwanted array list
             	if(!Arrays.asList(noCrn).contains(b.getCrn())){ // esnures none of crn in nocrn list are added, moved up here instead of checking all courses for each timetable --> hopefully faster
             		
