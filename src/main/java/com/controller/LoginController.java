@@ -162,10 +162,10 @@ public class LoginController {
       	counter=0;
       	a.setOpenCheck("both");
       	
-  	 if (a.checkAvailability(b.get(counter))==null) {
+  	 while(a.checkAvailability(b.get(counter))==null) {
   		 counter= counter+1;
   		 if(counter == b.size()-1) {
-	  		 model.put("errorMessage", "No schedules available with these constraints");
+	  		 model.put("errorMessage", "No schedules available with free spots or spots on waitlist");
 	  		 model.put("courses", b.get(0).timetable);
 	  		 counter = 0;
 	  		 return "Welcome";
@@ -185,12 +185,12 @@ public class LoginController {
       public String sortbylecture(ModelMap model){
      
     	  counter=0;
-        	a.setOpenCheck("both");
+        	a.setOpenCheck("one");
         	
-    	 if (a.checkAvailability(b.get(counter))==null) {
+    	 while(a.checkAvailability(b.get(counter))==null) {
     		 counter= counter+1;
     		 if(counter == b.size()-1) {
-  	  		 model.put("errorMessage", "No schedules available with these constraints");
+  	  		 model.put("errorMessage", "No schedules available with only free spots");
   	  		 model.put("courses", b.get(0).timetable);
   	  		 counter = 0;
   	  		 return "Welcome";
