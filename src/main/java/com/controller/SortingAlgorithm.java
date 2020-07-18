@@ -96,8 +96,9 @@ public class SortingAlgorithm {
     
     //has to be called to initialize the arraylist of courses
     public List<Timetable> sort() {
-    	int k =0;
+    	int k =-1; //remove if doesnt work
         for (String course : courseList) {
+        	k = k+1;
             if(course == ""){
                 break;
             }
@@ -130,12 +131,16 @@ public class SortingAlgorithm {
             
             if (addMoreLecture) {
             for (Course b: a.getSectionsLecture()) { 
-            	b.checkGenerator();
+            	if(k <5) {
+            		b.checkGenerator();
+            	}
             	// check if in wanted array list or in unwanted array list
             	if(!Arrays.asList(noCrn).contains(b.getCrn())){ // esnures none of crn in nocrn list are added, moved up here instead of checking all courses for each timetable --> hopefully faster
             		
 	            	if(openCheck.equals("both")) { // based on user input checks for availability of classes
+	            		if(k<5) {
 	            		b.checkGenerator(); 
+	            		}
 	            		// goes to oscar of the particular course to check availibility of classes
 	            		if(b.getSpotRemaining() > 0 || b.getWaitRemaining() > 0) {
 	            			sectionsLecture.add(b);

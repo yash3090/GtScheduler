@@ -7,11 +7,52 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<h1 style="color:gold"> <b><center>Georgia Tech Schedule Creator</center></b></h1>
+
 <meta charset="UTF-8">
 <title>Schedule Creator</title>
 </head>
+
+
+
+
 <body style="background-color:black;">
+
+
+
+
+<style>
+
+.header img {
+  float: right;
+  width: 150px;
+  height: 150px;
+  background: #555;
+}
+
+.header h1 {
+  position: relative;
+  top: 18px;
+  left: 10px;
+}
+
+</style>
+
+
+<div class="header">
+  <img src="/images/buzzlogo.png" alt="logo" />
+ <h1 style="color:gold"> <b><center>Georgia Tech Schedule Creator</center></b></h1>
+</div>
+
+
+
+
+
+
+
+
+
+<br>
+<br>
 
 <center>
 <p style="color:white"> The algorithm scrapes data from RateMyProfessor and CourseCritque to create the <b><u>best</u></b> schedule for you, automatically syncing lectures with studios/labs <br> 

@@ -29,7 +29,7 @@ public class LoginController {
     
     @RequestMapping(value="/scheduleCreator", method = RequestMethod.GET)
     public String showLoginPage(ModelMap model){
-    	RateMyProf.profRatingGenerator();
+    	//RateMyProf.profRatingGenerator();
         return "scheduleCreator"; // scheduleCreator jsp in webapp/WEB-INF
         
     }

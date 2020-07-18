@@ -38,6 +38,21 @@ img {
 </style>
 
 <meta charset="UTF-8">
+
+
+
+
+<style>
+body {
+  background-image: url('/images/backone.jpeg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;  
+  background-size: cover;
+}
+</style>
+
+
+
 <title>Schedule</title>
 </head>
 <body>
@@ -47,7 +62,7 @@ img {
 <font color="red" style="font-size:25px">${errorMessage}</font>
 </center>
 
-<body style="background-color:SkyBlue;">
+
 
 <div class="container">
  <div class="topleft"> <button id="prev" onclick="location.href ='/prev'" >Click to see the previous schedule</button> <%//try %>
@@ -65,16 +80,16 @@ img {
 <table border ="1">
 
 <tr>
-<td style="color:#CC6600"> <b><center>Course Name</center></b> </td>
-<td style="color:#cc6600"><b><center> Course Type</center></b> </td>
-<td style="color:#cc6600"> <center><b>Timings </b></center></td>
-<td style="color:#CC6600"> <b><center>Days</center></b> </td>
-<td style="color:#CC6600"> <b><center>Professor</center></b> </td>
-<td style="color:#CC6600"> <b><center>CRN</center></b> </td>
-<td style="color:#CC6600"> <b><center>Rate My Professor Rating</center> </b></td>
-<td style="color:#CC6600"><b> <center>Average GPA </center></b></td>
-<td style="color:#CC6600"><b><center> # Waitlist Spots</center> </b></td>
-<td style="color:#CC6600"><b><center> # Free Spots</center> </b></td>
+<td style="color:Blue"> <b><center>Course Name</center></b> </td>
+<td style="color:Blue"><b><center> Course Type</center></b> </td>
+<td style="color:Blue"> <center><b>Timings </b></center></td>
+<td style="color:Blue"> <b><center>Days</center></b> </td>
+<td style="color:Blue"> <b><center>Professor</center></b> </td>
+<td style="color:Blue"> <b><center>CRN</center></b> </td>
+<td style="color:Blue"> <b><center>Rate My Professor Rating</center> </b></td>
+<td style="color:Blue"><b> <center>Average GPA </center></b></td>
+<td style="color:Blue"><b><center> # Waitlist Spots</center> </b></td>
+<td style="color:Blue"><b><center> # Free Spots</center> </b></td>
 
 </tr>
 
@@ -93,8 +108,8 @@ if(e instanceof Studio){
 <td><center> <%= e.getDays() %></center></td>
 <td><center> <%=e.getProfessor() %></center></td>
 <td><b><center><%= e.getCrn()%></center></b></td>
-<td style="color:darkslategrey"><b> <center><% if(e instanceof Lecture) {out.print(((Lecture)e).rmpRating());} else{out.print("N/A");} %></center></b></td>
-<td style="color:darkslategrey"> <b><center><% if(e instanceof Lecture) {out.print(((Lecture)e).GPAgetter());} else{out.print("N/A");} %></center> </b></td>
+<td><b> <center><% if(e instanceof Lecture) {out.print(((Lecture)e).rmpRating());} else{out.print("N/A");} %></center></b></td>
+<td> <b><center><% if(e instanceof Lecture) {out.print(((Lecture)e).GPAgetter());} else{out.print("N/A");} %></center> </b></td>
 <td> <center><%= e.getWaitRemaining() %></center></td>
 <td><center><%=e.getSpotRemaining() %></center></td>
 </tr>
