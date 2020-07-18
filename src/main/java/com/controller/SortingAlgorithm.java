@@ -97,8 +97,9 @@ public class SortingAlgorithm {
     //has to be called to initialize the arraylist of courses
     public List<Timetable> sort() {
     	
+    	int k =-1;
         for (String course : courseList) {
-        	
+        	k  = k +1;
             if(course == ""){
                 break;
             }
@@ -132,8 +133,9 @@ public class SortingAlgorithm {
             if (addMoreLecture) {
             for (Course b: a.getSectionsLecture()) { 
             	
+            		if(k<5) {
             		b.checkGenerator();
-            	
+            		}
             	// check if in wanted array list or in unwanted array list
             	if(!Arrays.asList(noCrn).contains(b.getCrn())){ // esnures none of crn in nocrn list are added, moved up here instead of checking all courses for each timetable --> hopefully faster
             		
@@ -262,6 +264,7 @@ public class SortingAlgorithm {
                     for (int ac = ab + 1; ac < tempTimeTable.size(); ac++) {
                         if (tempTimeTable.get(ab).clash(tempTimeTable.get(ac))) {
                             DoesClash = true;
+                            break;
                         }
                     }
                 }
@@ -351,40 +354,8 @@ public class SortingAlgorithm {
      * goes through all the possible timetables to find the one with the highest avg rating
      * @return best schedule
      
-     
-     //og code
-    public  List<Course> getBestSchedule(){
-
-        if(possibleTimeTable.size() == 0) {
-            return null; // or send an error message here
-        }
-        
-        RateMyProf.profRatingGenerator();
-
-        double max= 0.0;
-        for (ArrayList<Course> timeTable: possibleTimeTable){
-            int count = 0;
-            double sum = 0.0;
-            for (Course section: timeTable) {
-                if (section instanceof Lecture) {
-                    count  = count + 1;
-                    try {
-                        sum = sum + ((Lecture)section).lectureRating(profGPA);
-                    } catch (Exception ex){
-                        // we need to create error for this
-                    }
-                }
-            }
-            double avg = sum/count;
-            if (avg > max) {
-                max = avg;
-                bestSchedule = new ArrayList<>(timeTable);
-            }
-        }
-        return bestSchedule;
-    }
     */
-
+       
     
     
     
