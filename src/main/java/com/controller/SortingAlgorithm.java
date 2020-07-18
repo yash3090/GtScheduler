@@ -97,7 +97,7 @@ public class SortingAlgorithm {
     //has to be called to initialize the arraylist of courses
     public List<Timetable> sort() {
     	
-    	int k =-1;
+    	int k =0;
         for (String course : courseList) {
         	k  = k +1;
             if(course == ""){
@@ -134,6 +134,7 @@ public class SortingAlgorithm {
             for (Course b: a.getSectionsLecture()) { 
             	
             		if(k<5) {
+            			System.out.println("checkiing");
             		b.checkGenerator();
             		}
             	// check if in wanted array list or in unwanted array list

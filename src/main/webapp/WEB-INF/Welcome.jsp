@@ -142,5 +142,8 @@ if(e instanceof Studio){
 
 </center>
 
+<br>
+<p> <h3> if waitlist/free spot is -1 then the algorithm can't check individual section's availability, due to the large number of sections for the course</h3>
+
 </body>
 </html>
