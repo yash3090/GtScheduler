@@ -154,7 +154,7 @@ public class Lecture extends Course {
     
     public double lectureRating (ArrayList<String[]> profData) throws IOException { // replace ioexpeception for m2 with another exception
     	if (professorFirstName.equals("")){
-    		return 5;
+    		return 5.0;
     	}
     	String temporaryName;
     	Double courseCritiqueRating = null;
@@ -191,7 +191,7 @@ public class Lecture extends Course {
         }
 
         if (rateMyProfRating == null && courseCritiqueRating == null) {
-            return 5;
+            return 5.0;
         } else if (rateMyProfRating == null && courseCritiqueRating != null) {
             return courseCritiqueRating*(10.0/4);
         } else if (rateMyProfRating != null && courseCritiqueRating == null) {

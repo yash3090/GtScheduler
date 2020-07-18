@@ -65,16 +65,16 @@ img {
 <table border ="1">
 
 <tr>
-<td style="color:#CC6600"> <b>Course Name</b> </td>
-<td style="color:#cc6600"><b> Course Type</b> </td>
-<td style="color:#cc6600"> <b>Timings </b></td>
-<td style="color:#CC6600"> <b>Days</b> </td>
-<td style="color:#CC6600"> <b>Professor</b> </td>
-<td style="color:#CC6600"> <b>CRN</b> </td>
-<td style="color:#CC6600"> <b>Rate My Professor Rating </b></td>
-<td style="color:#CC6600"><b> Average GPA </b></td>
-<td style="color:#CC6600"><b> # Waitlist Spots </b></td>
-<td style="color:#CC6600"><b> # Free Spots </b></td>
+<td style="color:#CC6600"> <b><center>Course Name</center></b> </td>
+<td style="color:#cc6600"><b><center> Course Type</center></b> </td>
+<td style="color:#cc6600"> <center><b>Timings </b></center></td>
+<td style="color:#CC6600"> <b><center>Days</center></b> </td>
+<td style="color:#CC6600"> <b><center>Professor</center></b> </td>
+<td style="color:#CC6600"> <b><center>CRN</center></b> </td>
+<td style="color:#CC6600"> <b><center>Rate My Professor Rating</center> </b></td>
+<td style="color:#CC6600"><b> <center>Average GPA </center></b></td>
+<td style="color:#CC6600"><b><center> # Waitlist Spots</center> </b></td>
+<td style="color:#CC6600"><b><center> # Free Spots</center> </b></td>
 
 </tr>
 
@@ -87,16 +87,16 @@ if(e instanceof Studio){
 %>
 <tr>
 
-<td> <%= e.getCourseId() %></td>
-<td><%= e.getCourseType() %> </td>
-<td> <%= e.getTime() %></td>
-<td> <%= e.getDays() %></td>
-<td> <%=e.getProfessor() %>
-<td><b><%= e.getCrn()%></b></td>
-<td> <% if(e instanceof Lecture) {out.print(((Lecture)e).rmpRating());} else{out.print("N/A");} %></td>
-<td> <% if(e instanceof Lecture) {out.print(((Lecture)e).GPAgetter());} else{out.print("N/A");} %> </td>
-<td> <%= e.getWaitRemaining() %>
-<td><%=e.getSpotRemaining() %>
+<td><center><%= e.getCourseId() %></center></td>
+<td><center><%= e.getCourseType() %> </center></td>
+<td><center> <%= e.getTime() %></center></td>
+<td><center> <%= e.getDays() %></center></td>
+<td><center> <%=e.getProfessor() %></center></td>
+<td><b><center><%= e.getCrn()%></center></b></td>
+<td style="color:darkslategrey"><b> <center><% if(e instanceof Lecture) {out.print(((Lecture)e).rmpRating());} else{out.print("N/A");} %></center></b></td>
+<td style="color:darkslategrey"> <b><center><% if(e instanceof Lecture) {out.print(((Lecture)e).GPAgetter());} else{out.print("N/A");} %></center> </b></td>
+<td> <center><%= e.getWaitRemaining() %></center></td>
+<td><center><%=e.getSpotRemaining() %></center></td>
 </tr>
 
 <%} %>
